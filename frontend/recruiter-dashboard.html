@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="JOBLY Recruiter Dashboard — Manage jobs, applicants, and your company profile.">
+    <title>Recruiter Dashboard — JOBLY</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Phosphor Icons -->
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/regular/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/bold/style.css">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="recruiter-dashboard.css">
+</head>
+<body>
+
+    <!-- ========== ROLE CHECK ========== -->
+    <script>
+        (function() {
+            const role = localStorage.getItem('jobly_role');
+            if (role !== 'recruiter') {
+                window.location.href = 'login.html';
+                return;
+            }
+        })();
+    </script>
+
+    <!-- ========== TOP NAVBAR ========== -->
+    <header class="topbar" id="topbar">
+        <div class="topbar__left">
+            <button class="topbar__menu-btn" id="sidebar-toggle" aria-label="Toggle sidebar">
+                <i class="ph ph-list"></i>
+            </button>
+            <a href="index.html" class="topbar__logo">
+                <div class="header__logo-icon">
+                    <i class="ph ph-briefcase"></i>
+                </div>
+                <span class="header__logo-text">JOBLY</span>
+            </a>
+        </div>
+        <div class="topbar__right">
+            <div class="topbar__profile" id="topbar-profile">
+                <div class="topbar__avatar">
+                    <i class="ph ph-user"></i>
+                </div>
+                <span class="topbar__name">Recruiter</span>
+            </div>
+            <button class="topbar__logout" id="btn-logout" aria-label="Logout">
+                <i class="ph ph-sign-out"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ========== SIDEBAR ========== -->
+    <aside class="sidebar" id="sidebar">
+        <nav class="sidebar__nav">
+            <button class="sidebar__link sidebar__link--active" data-section="dashboard" id="nav-dashboard">
+                <i class="ph ph-squares-four"></i>
+                <span>Dashboard</span>
+            </button>
+            <button class="sidebar__link" data-section="post-job" id="nav-post-job">
+                <i class="ph ph-plus-circle"></i>
+                <span>Post Job</span>
+            </button>
+            <button class="sidebar__link" data-section="manage-jobs" id="nav-manage-jobs">
+                <i class="ph ph-list-checks"></i>
+                <span>Manage Jobs</span>
+            </button>
+            <button class="sidebar__link" data-section="applicants" id="nav-applicants">
+                <i class="ph ph-users-three"></i>
+                <span>Applicants</span>
+            </button>
+            <button class="sidebar__link" data-section="company" id="nav-company">
+                <i class="ph ph-buildings"></i>
+                <span>Company Profile</span>
+            </button>
+            <button class="sidebar__link" data-section="settings" id="nav-settings">
+                <i class="ph ph-gear"></i>
+                <span>Settings</span>
+            </button>
+        </nav>
+    </aside>
+
+    <!-- ========== SIDEBAR OVERLAY (mobile) ========== -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- ========== MAIN CONTENT ========== -->
+    <main class="main" id="main-content">
+
+        <!-- ===== SECTION: Dashboard Overview ===== -->
+        <section class="section section--active" id="sec-dashboard">
+            <h2 class="section__title">Dashboard Overview</h2>
+            <p class="section__subtitle">Welcome back! Here's what's happening.</p>
+
+            <div class="overview-grid" id="overview-grid">
+                <div class="stat-card" id="stat-total">
+                    <div class="stat-card__icon stat-card__icon--purple"><i class="ph ph-briefcase"></i></div>
+                    <div class="stat-card__info">
+                        <span class="stat-card__number">12</span>
+                        <span class="stat-card__label">Total Jobs Posted</span>
+                    </div>
+                </div>
+                <div class="stat-card" id="stat-active">
+                    <div class="stat-card__icon stat-card__icon--green"><i class="ph ph-check-circle"></i></div>
+                    <div class="stat-card__info">
+                        <span class="stat-card__number">8</span>
+                        <span class="stat-card__label">Active Jobs</span>
+                    </div>
+                </div>
+                <div class="stat-card" id="stat-applicants">
+                    <div class="stat-card__icon stat-card__icon--blue"><i class="ph ph-users"></i></div>
+                    <div class="stat-card__info">
+                        <span class="stat-card__number">47</span>
+                        <span class="stat-card__label">Total Applicants</span>
+                    </div>
+                </div>
+                <div class="stat-card" id="stat-shortlisted">
+                    <div class="stat-card__icon stat-card__icon--orange"><i class="ph ph-star"></i></div>
+                    <div class="stat-card__info">
+                        <span class="stat-card__number">15</span>
+                        <span class="stat-card__label">Shortlisted</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="recent-activity" id="recent-activity">
+                <h3 class="recent-activity__title">Recent Activity</h3>
+                <div class="activity-list" id="activity-list">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SECTION: Post Job ===== -->
+        <section class="section" id="sec-post-job">
+            <h2 class="section__title">Post a New Job</h2>
+            <p class="section__subtitle">Fill in the details to create a new listing.</p>
+
+            <div class="form-card" id="post-job-card">
+                <form class="rdash-form" id="post-job-form" novalidate>
+                    <div class="rdash-form__row">
+                        <div class="rdash-form__group">
+                            <label class="rdash-form__label" for="pj-title">Job Title</label>
+                            <input class="rdash-form__input" type="text" id="pj-title" required>
+                        </div>
+                        <div class="rdash-form__group">
+                            <label class="rdash-form__label" for="pj-salary">Salary (₹/month)</label>
+                            <input class="rdash-form__input" type="text" id="pj-salary" required>
+                        </div>
+                    </div>
+                    <div class="rdash-form__row">
+                        <div class="rdash-form__group">
+                            <label class="rdash-form__label" for="pj-location">Location</label>
+                            <input class="rdash-form__input" type="text" id="pj-location" required>
+                        </div>
+                        <div class="rdash-form__group">
+                            <label class="rdash-form__label" for="pj-type">Job Type</label>
+                            <select class="rdash-form__input rdash-form__select" id="pj-type" required>
+                                <option value="" disabled selected>Select type</option>
+                                <option value="Full-time">Full-time</option>
+                                <option value="Part-time">Part-time</option>
+                                <option value="Contract">Contract</option>
+                                <option value="Internship">Internship</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="rdash-form__group rdash-form__group--full">
+                        <label class="rdash-form__label" for="pj-desc">Description</label>
+                        <textarea class="rdash-form__input rdash-form__textarea" id="pj-desc" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn--primary" id="btn-post-job">
+                        <i class="ph ph-paper-plane-tilt"></i>
+                        <span>Post Job</span>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- ===== SECTION: Manage Jobs ===== -->
+        <section class="section" id="sec-manage-jobs">
+            <h2 class="section__title">Manage Jobs</h2>
+            <p class="section__subtitle">View and manage all your job listings.</p>
+
+            <div class="table-card" id="manage-jobs-card">
+                <div class="table-responsive">
+                    <table class="rdash-table" id="jobs-table">
+                        <thead>
+                            <tr>
+                                <th>Job Title</th>
+                                <th>Status</th>
+                                <th>Applicants</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="jobs-tbody">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SECTION: Applicants ===== -->
+        <section class="section" id="sec-applicants">
+            <h2 class="section__title">Applicants</h2>
+            <p class="section__subtitle">Review and manage candidate applications.</p>
+
+            <div class="table-card" id="applicants-card">
+                <div class="table-responsive">
+                    <table class="rdash-table" id="applicants-table">
+                        <thead>
+                            <tr>
+                                <th>Candidate Name</th>
+                                <th>Applied For</th>
+                                <th>Resume</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="applicants-tbody">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SECTION: Company Profile ===== -->
+        <section class="section" id="sec-company">
+            <h2 class="section__title">Company Profile</h2>
+            <p class="section__subtitle">Your company information visible to candidates.</p>
+
+            <div class="company-card" id="company-card">
+                <div class="company-card__header">
+                    <div class="company-card__avatar">
+                        <i class="ph ph-buildings"></i>
+                    </div>
+                    <div class="company-card__info">
+                        <h3 class="company-card__name" id="company-name">Profile Not Set</h3>
+                        <span class="company-card__location" id="company-location" style="display: none;">
+                        </span>
+                    </div>
+                </div>
+                <div class="company-card__body">
+                    <h4>About the Company</h4>
+                    <p class="company-card__desc" id="company-desc">
+                        You haven't set up your company profile yet. Candidates will see this information when they apply to your jobs. Click "Edit Profile" below to add details.
+                    </p>
+                    <div class="company-card__meta">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+                <div class="company-card__footer" id="company-view-footer">
+                    <button class="btn btn--outline" id="btn-edit-company">
+                        <i class="ph ph-pencil-simple"></i>
+                        <span>Edit Profile</span>
+                    </button>
+                </div>
+
+                <!-- Edit Form (Hidden by default) -->
+                <div class="company-card__edit rdash-form" id="company-edit-form" style="display: none; padding: var(--space-xl); border-top: 1px solid var(--clr-border);">
+                    <div class="rdash-form__row">
+                        <div class="rdash-form__group">
+                            <label class="rdash-form__label" for="edit-company-name">Company Name</label>
+                            <input class="rdash-form__input" type="text" id="edit-company-name" required>
+                        </div>
+                        <div class="rdash-form__group">
+                            <label class="rdash-form__label" for="edit-company-location">Location</label>
+                            <input class="rdash-form__input" type="text" id="edit-company-location" required>
+                        </div>
+                    </div>
+                    <div class="rdash-form__row">
+                        <div class="rdash-form__group">
+                            <label class="rdash-form__label" for="edit-company-website">Website</label>
+                            <input class="rdash-form__input" type="url" id="edit-company-website">
+                        </div>
+                        <div class="rdash-form__group">
+                            <label class="rdash-form__label" for="edit-company-employees">Employees</label>
+                            <input class="rdash-form__input" type="text" id="edit-company-employees">
+                        </div>
+                    </div>
+                    <div class="rdash-form__row">
+                        <div class="rdash-form__group">
+                            <label class="rdash-form__label" for="edit-company-founded">Founded Year</label>
+                            <input class="rdash-form__input" type="text" id="edit-company-founded">
+                        </div>
+                    </div>
+                    <div class="rdash-form__group rdash-form__group--full">
+                        <label class="rdash-form__label" for="edit-company-desc">About Company</label>
+                        <textarea class="rdash-form__input rdash-form__textarea" id="edit-company-desc" rows="4" required></textarea>
+                    </div>
+                    
+                    <div style="display: flex; gap: 12px; margin-top: 16px;">
+                        <button class="btn btn--primary" id="btn-save-company">
+                            <i class="ph ph-floppy-disk"></i>
+                            <span>Save Changes</span>
+                        </button>
+                        <button class="btn btn--outline" id="btn-cancel-edit-company">
+                            <span>Cancel</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SECTION: Settings ===== -->
+        <section class="section" id="sec-settings">
+            <h2 class="section__title">Settings</h2>
+            <p class="section__subtitle">Manage your account preferences.</p>
+
+            <div class="settings-grid" id="settings-grid">
+                <div class="settings-card" id="settings-notifications">
+                    <div class="settings-card__icon"><i class="ph ph-bell"></i></div>
+                    <h3 class="settings-card__title">Notifications</h3>
+                    <p class="settings-card__desc">Configure email and push notification preferences.</p>
+                    <span class="dash-card__badge">Coming Soon</span>
+                </div>
+                <div class="settings-card" id="settings-security">
+                    <div class="settings-card__icon"><i class="ph ph-shield-check"></i></div>
+                    <h3 class="settings-card__title">Security</h3>
+                    <p class="settings-card__desc">Update password, enable two-factor authentication.</p>
+                    <span class="dash-card__badge">Coming Soon</span>
+                </div>
+                <div class="settings-card" id="settings-billing">
+                    <div class="settings-card__icon"><i class="ph ph-credit-card"></i></div>
+                    <h3 class="settings-card__title">Billing</h3>
+                    <p class="settings-card__desc">Manage subscription and payment methods.</p>
+                    <span class="dash-card__badge">Coming Soon</span>
+                </div>
+                <div class="settings-card" id="settings-integrations">
+                    <div class="settings-card__icon"><i class="ph ph-plugs-connected"></i></div>
+                    <h3 class="settings-card__title">Integrations</h3>
+                    <p class="settings-card__desc">Connect with Slack, Google Workspace and more.</p>
+                    <span class="dash-card__badge">Coming Soon</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="recruiter-dashboard.js"></script>
+</body>
+</html>

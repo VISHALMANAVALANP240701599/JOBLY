@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sign in to your JOBLY account.">
+    <title>Sign In — JOBLY</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Phosphor Icons -->
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/regular/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/bold/style.css">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+
+    <!-- ========== HEADER ========== -->
+    <header class="header header--scrolled" id="header">
+        <div class="header__container">
+            <a href="index.html" class="header__logo" id="logo">
+                <div class="header__logo-icon">
+                    <i class="ph ph-briefcase"></i>
+                </div>
+                <span class="header__logo-text">JOBLY</span>
+            </a>
+            <nav class="header__nav" id="nav">
+                <a href="index.html" class="header__nav-link" id="nav-home">Home</a>
+                <a href="signup.html" class="header__nav-link" id="nav-signup">Sign Up</a>
+            </nav>
+            <button class="header__menu-toggle" id="menu-toggle" aria-label="Toggle navigation menu">
+                <span class="header__menu-bar"></span>
+                <span class="header__menu-bar"></span>
+                <span class="header__menu-bar"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ========== BACKGROUND ORBS ========== -->
+    <div class="auth-bg">
+        <div class="hero__orb hero__orb--1"></div>
+        <div class="hero__orb hero__orb--2"></div>
+    </div>
+
+    <!-- ========== LOGIN CONTENT ========== -->
+    <main class="auth-page" id="login-page">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-card__icon-large">
+                    <i class="ph ph-sign-in"></i>
+                </div>
+
+                <h1 class="auth-card__title">Welcome Back</h1>
+                <p class="auth-card__subtitle">Sign in to continue to JOBLY</p>
+
+                <form class="auth-form" id="login-form" novalidate>
+                    <!-- Login As -->
+                    <div class="form-group" id="fg-login-role">
+                        <label class="form-label" for="login-role">
+                            <i class="ph ph-identification-badge"></i> Login As
+                        </label>
+                        <select class="form-input form-select" id="login-role">
+                            <option value="seeker">Job Seeker</option>
+                            <option value="recruiter">Recruiter</option>
+                        </select>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group" id="fg-login-email">
+                        <label class="form-label" for="login-email">
+                            <i class="ph ph-envelope"></i> Email Address
+                        </label>
+                        <input class="form-input" type="email" id="login-email" placeholder="you@example.com" required>
+                        <span class="form-error" id="err-login-email"></span>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group" id="fg-login-password">
+                        <label class="form-label" for="login-password">
+                            <i class="ph ph-lock"></i> Password
+                        </label>
+                        <div class="form-input-wrapper">
+                            <input class="form-input" type="password" id="login-password" placeholder="Enter your password" required>
+                            <button type="button" class="form-toggle-pw" id="toggle-login-pw" aria-label="Toggle password visibility">
+                                <i class="ph ph-eye"></i>
+                            </button>
+                        </div>
+                        <span class="form-error" id="err-login-password"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn--primary btn--full" id="btn-login-submit">
+                        <i class="ph ph-sign-in"></i>
+                        <span>Sign In</span>
+                    </button>
+                </form>
+
+                <p class="auth-card__footer">
+                    Don't have an account? <a href="signup.html">Sign Up</a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <script src="auth.js"></script>
+</body>
+</html>

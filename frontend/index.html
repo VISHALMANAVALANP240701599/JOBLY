@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="JOBLY - Find your dream job. We make your life meaningful by connecting talented professionals with top employers.">
+    <title>JOBLY — Find Your Dream Job</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Phosphor Icons -->
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/regular/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/bold/style.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ========== HEADER ========== -->
+    <header class="header" id="header">
+        <div class="header__container">
+            <!-- Logo -->
+            <a href="index.html" class="header__logo" id="logo">
+                <div class="header__logo-icon">
+                    <i class="ph ph-briefcase"></i>
+                </div>
+                <span class="header__logo-text">JOBLY</span>
+            </a>
+
+            <!-- Navigation -->
+            <nav class="header__nav" id="nav">
+                <a href="about.html" class="header__nav-link" id="nav-about">About Us</a>
+                <a href="tel:+919876543210" class="header__nav-link" id="nav-contact">
+                    <i class="ph ph-phone"></i> Contact
+                </a>
+            </nav>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="header__menu-toggle" id="menu-toggle" aria-label="Toggle navigation menu">
+                <span class="header__menu-bar"></span>
+                <span class="header__menu-bar"></span>
+                <span class="header__menu-bar"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ========== HERO SECTION ========== -->
+    <section class="hero" id="hero">
+        <!-- Background decorations -->
+        <div class="hero__bg">
+            <div class="hero__orb hero__orb--1"></div>
+            <div class="hero__orb hero__orb--2"></div>
+            <div class="hero__orb hero__orb--3"></div>
+            <div class="hero__grid-overlay"></div>
+        </div>
+
+        <div class="hero__content">
+            <!-- Dynamic typing text above title -->
+            <div class="hero__typing-wrapper">
+                <span class="hero__typing-label">Looking for a</span>
+                <span class="hero__typing-text" id="typing-text"></span>
+                <span class="hero__typing-cursor">|</span>
+            </div>
+
+            <!-- Main Title -->
+            <h1 class="hero__title" id="hero-title">
+                <span class="hero__title-letter" style="--i:0">J</span><span class="hero__title-letter" style="--i:1">O</span><span class="hero__title-letter" style="--i:2">B</span><span class="hero__title-letter" style="--i:3">L</span><span class="hero__title-letter" style="--i:4">Y</span>
+            </h1>
+
+            <!-- Tagline -->
+            <p class="hero__tagline" id="hero-tagline">We make your life meaningful</p>
+
+            <!-- Decorative line -->
+            <div class="hero__divider"></div>
+
+            <!-- Buttons -->
+            <div class="hero__buttons" id="hero-buttons">
+                <a href="login.html" class="btn btn--primary" id="btn-signin">
+                    <i class="ph ph-sign-in"></i>
+                    <span>Sign In</span>
+                </a>
+                <a href="signup.html" class="btn btn--outline" id="btn-signup">
+                    <i class="ph ph-user-plus"></i>
+                    <span>Sign Up</span>
+                </a>
+            </div>
+
+            <!-- Stats bar -->
+            <div class="hero__stats" id="hero-stats">
+                <div class="hero__stat">
+                    <span class="hero__stat-number" data-target="12000">0</span>
+                    <span class="hero__stat-label">Jobs Posted</span>
+                </div>
+                <div class="hero__stat-divider"></div>
+                <div class="hero__stat">
+                    <span class="hero__stat-number" data-target="8500">0</span>
+                    <span class="hero__stat-label">Companies</span>
+                </div>
+                <div class="hero__stat-divider"></div>
+                <div class="hero__stat">
+                    <span class="hero__stat-number" data-target="45000">0</span>
+                    <span class="hero__stat-label">Candidates</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="hero__scroll-indicator" id="scroll-indicator">
+            <div class="hero__scroll-mouse">
+                <div class="hero__scroll-wheel"></div>
+            </div>
+            <span>Scroll to explore</span>
+        </div>
+    </section>
+
+    <!-- ========== FEATURES SECTION ========== -->
+    <section class="features" id="features">
+        <div class="features__container">
+            <h2 class="section-title" id="features-title">Why Choose JOBLY?</h2>
+            <p class="section-subtitle">Empowering careers, one connection at a time</p>
+
+            <div class="features__grid">
+                <div class="feature-card" id="feature-1">
+                    <div class="feature-card__icon">
+                        <i class="ph ph-magnifying-glass"></i>
+                    </div>
+                    <h3 class="feature-card__title">Smart Search</h3>
+                    <p class="feature-card__desc">AI-powered job matching that understands your skills, experience, and career aspirations.</p>
+                </div>
+
+                <div class="feature-card" id="feature-2">
+                    <div class="feature-card__icon">
+                        <i class="ph ph-lightning"></i>
+                    </div>
+                    <h3 class="feature-card__title">Instant Apply</h3>
+                    <p class="feature-card__desc">One-click applications with your pre-built profile. Save time and apply faster.</p>
+                </div>
+
+                <div class="feature-card" id="feature-3">
+                    <div class="feature-card__icon">
+                        <i class="ph ph-shield-check"></i>
+                    </div>
+                    <h3 class="feature-card__title">Verified Jobs</h3>
+                    <p class="feature-card__desc">Every listing is verified by our team. No scams, no spam — only real opportunities.</p>
+                </div>
+
+                <div class="feature-card" id="feature-4">
+                    <div class="feature-card__icon">
+                        <i class="ph ph-chart-line-up"></i>
+                    </div>
+                    <h3 class="feature-card__title">Career Growth</h3>
+                    <p class="feature-card__desc">Track your progress, get industry insights, and level up your career trajectory.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CTA SECTION ========== -->
+    <section class="cta" id="cta">
+        <div class="cta__container">
+            <h2 class="cta__title">Ready to find your dream job?</h2>
+            <p class="cta__desc">Join thousands of professionals who found their perfect role through JOBLY.</p>
+            <a href="signup.html" class="btn btn--primary btn--large" id="btn-cta-signup">
+                <i class="ph ph-rocket-launch"></i>
+                <span>Get Started — It's Free</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer" id="footer">
+        <div class="footer__container">
+            <div class="footer__brand">
+                <div class="footer__logo">
+                    <div class="header__logo-icon">
+                        <i class="ph ph-briefcase"></i>
+                    </div>
+                    <span class="header__logo-text">JOBLY</span>
+                </div>
+                <p class="footer__tagline">We make your life meaningful</p>
+            </div>
+            <div class="footer__links">
+                <a href="about.html">About Us</a>
+                <a href="tel:+919876543210">Contact</a>
+            </div>
+            <div class="footer__bottom">
+                <p>&copy; 2026 JOBLY. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

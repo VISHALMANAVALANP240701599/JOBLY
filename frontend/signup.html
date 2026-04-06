@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create your JOBLY account as a Job Seeker or Recruiter.">
+    <title>Sign Up — JOBLY</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Phosphor Icons -->
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/regular/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/bold/style.css">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+
+    <!-- ========== HEADER ========== -->
+    <header class="header header--scrolled" id="header">
+        <div class="header__container">
+            <a href="index.html" class="header__logo" id="logo">
+                <div class="header__logo-icon">
+                    <i class="ph ph-briefcase"></i>
+                </div>
+                <span class="header__logo-text">JOBLY</span>
+            </a>
+            <nav class="header__nav" id="nav">
+                <a href="index.html" class="header__nav-link" id="nav-home">Home</a>
+                <a href="login.html" class="header__nav-link" id="nav-login">Sign In</a>
+            </nav>
+            <button class="header__menu-toggle" id="menu-toggle" aria-label="Toggle navigation menu">
+                <span class="header__menu-bar"></span>
+                <span class="header__menu-bar"></span>
+                <span class="header__menu-bar"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ========== BACKGROUND ORBS ========== -->
+    <div class="auth-bg">
+        <div class="hero__orb hero__orb--1"></div>
+        <div class="hero__orb hero__orb--2"></div>
+    </div>
+
+    <!-- ========== MAIN CONTENT ========== -->
+    <main class="auth-page" id="signup-page">
+
+        <!-- ===== STEP 1: Role Selection ===== -->
+        <div class="auth-container" id="step-role">
+            <div class="auth-card auth-card--wide">
+                <h1 class="auth-card__title">Join JOBLY</h1>
+                <p class="auth-card__subtitle">Select how you'd like to use JOBLY</p>
+
+                <div class="role-grid" id="role-grid">
+                    <!-- Job Seeker Card -->
+                    <button class="role-card" id="role-seeker" data-role="seeker">
+                        <div class="role-card__icon">
+                            <i class="ph ph-user-circle"></i>
+                        </div>
+                        <h3 class="role-card__title">Job Seeker</h3>
+                        <p class="role-card__desc">Find your dream job, apply to openings, and grow your career.</p>
+                        <span class="role-card__cta">
+                            <i class="ph ph-arrow-right"></i>
+                        </span>
+                    </button>
+
+                    <!-- Recruiter Card -->
+                    <button class="role-card" id="role-recruiter" data-role="recruiter">
+                        <div class="role-card__icon">
+                            <i class="ph ph-buildings"></i>
+                        </div>
+                        <h3 class="role-card__title">Recruiter</h3>
+                        <p class="role-card__desc">Post jobs, find top talent, and build your dream team.</p>
+                        <span class="role-card__cta">
+                            <i class="ph ph-arrow-right"></i>
+                        </span>
+                    </button>
+                </div>
+
+                <p class="auth-card__footer">
+                    Already have an account? <a href="login.html">Sign In</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- ===== STEP 2A: Job Seeker Form ===== -->
+        <div class="auth-container auth-hidden" id="step-seeker">
+            <div class="auth-card">
+                <button class="auth-back" id="back-seeker" aria-label="Go back">
+                    <i class="ph ph-arrow-left"></i>
+                    <span>Back</span>
+                </button>
+
+                <h1 class="auth-card__title">Job Seeker Registration</h1>
+                <p class="auth-card__subtitle">Tell us about yourself</p>
+
+                <form class="auth-form" id="seeker-form" novalidate>
+                    <!-- Full Name -->
+                    <div class="form-group" id="fg-seeker-name">
+                        <label class="form-label" for="seeker-name">
+                            <i class="ph ph-user"></i> Full Name
+                        </label>
+                        <input class="form-input" type="text" id="seeker-name" placeholder="Enter your full name" required>
+                        <span class="form-error" id="err-seeker-name"></span>
+                    </div>
+
+                    <!-- Date of Birth -->
+                    <div class="form-group" id="fg-seeker-dob">
+                        <label class="form-label" for="seeker-dob">
+                            <i class="ph ph-calendar"></i> Date of Birth
+                        </label>
+                        <input class="form-input" type="date" id="seeker-dob" required>
+                        <span class="form-error" id="err-seeker-dob"></span>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group" id="fg-seeker-email">
+                        <label class="form-label" for="seeker-email">
+                            <i class="ph ph-envelope"></i> Email Address
+                        </label>
+                        <input class="form-input" type="email" id="seeker-email" placeholder="you@example.com" required>
+                        <span class="form-error" id="err-seeker-email"></span>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group" id="fg-seeker-password">
+                        <label class="form-label" for="seeker-password">
+                            <i class="ph ph-lock"></i> Password
+                        </label>
+                        <div class="form-input-wrapper">
+                            <input class="form-input" type="password" id="seeker-password" placeholder="Min 6 characters" required minlength="6">
+                            <button type="button" class="form-toggle-pw" id="toggle-seeker-pw" aria-label="Toggle password visibility">
+                                <i class="ph ph-eye"></i>
+                            </button>
+                        </div>
+                        <span class="form-error" id="err-seeker-password"></span>
+                    </div>
+
+                    <!-- Mobile Number -->
+                    <div class="form-group" id="fg-seeker-mobile">
+                        <label class="form-label" for="seeker-mobile">
+                            <i class="ph ph-phone"></i> Mobile Number
+                        </label>
+                        <input class="form-input" type="tel" id="seeker-mobile" placeholder="10-digit mobile number" required pattern="[0-9]{10}">
+                        <span class="form-error" id="err-seeker-mobile"></span>
+                    </div>
+
+                    <!-- Work Status -->
+                    <div class="form-group" id="fg-seeker-status">
+                        <label class="form-label" for="seeker-status">
+                            <i class="ph ph-briefcase"></i> Work Status
+                        </label>
+                        <select class="form-input form-select" id="seeker-status" required>
+                            <option value="" disabled selected>Select your status</option>
+                            <option value="fresher">Fresher</option>
+                            <option value="experienced">Experienced</option>
+                        </select>
+                        <span class="form-error" id="err-seeker-status"></span>
+                    </div>
+
+                    <!-- Years of Experience (conditional) -->
+                    <div class="form-group form-group--hidden" id="fg-seeker-exp">
+                        <label class="form-label" for="seeker-exp">
+                            <i class="ph ph-clock-countdown"></i> Years of Experience
+                        </label>
+                        <input class="form-input" type="number" id="seeker-exp" placeholder="e.g. 3" min="1" max="50">
+                        <span class="form-error" id="err-seeker-exp"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn--primary btn--full" id="btn-seeker-submit">
+                        <i class="ph ph-check-circle"></i>
+                        <span>Create Account</span>
+                    </button>
+                </form>
+
+                <p class="auth-card__footer">
+                    Already have an account? <a href="login.html">Sign In</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- ===== STEP 2B: Recruiter Form ===== -->
+        <div class="auth-container auth-hidden" id="step-recruiter">
+            <div class="auth-card">
+                <button class="auth-back" id="back-recruiter" aria-label="Go back">
+                    <i class="ph ph-arrow-left"></i>
+                    <span>Back</span>
+                </button>
+
+                <h1 class="auth-card__title">Recruiter Registration</h1>
+                <p class="auth-card__subtitle">Set up your hiring profile</p>
+
+                <form class="auth-form" id="recruiter-form" novalidate>
+                    <!-- Full Name -->
+                    <div class="form-group" id="fg-rec-name">
+                        <label class="form-label" for="rec-name">
+                            <i class="ph ph-user"></i> Full Name
+                        </label>
+                        <input class="form-input" type="text" id="rec-name" placeholder="Enter your full name" required>
+                        <span class="form-error" id="err-rec-name"></span>
+                    </div>
+
+                    <!-- Company Name -->
+                    <div class="form-group" id="fg-rec-company">
+                        <label class="form-label" for="rec-company">
+                            <i class="ph ph-buildings"></i> Company Name
+                        </label>
+                        <input class="form-input" type="text" id="rec-company" placeholder="Your company or org name" required>
+                        <span class="form-error" id="err-rec-company"></span>
+                    </div>
+
+                    <!-- Roles Offered -->
+                    <div class="form-group" id="fg-rec-roles">
+                        <label class="form-label" for="rec-roles">
+                            <i class="ph ph-identification-badge"></i> Roles Offered
+                        </label>
+                        <input class="form-input" type="text" id="rec-roles" placeholder="e.g. Developer, Designer, Manager" required>
+                        <span class="form-error" id="err-rec-roles"></span>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="form-group" id="fg-rec-location">
+                        <label class="form-label" for="rec-location">
+                            <i class="ph ph-map-pin"></i> Location
+                        </label>
+                        <input class="form-input" type="text" id="rec-location" placeholder="City, State" required>
+                        <span class="form-error" id="err-rec-location"></span>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group" id="fg-rec-email">
+                        <label class="form-label" for="rec-email">
+                            <i class="ph ph-envelope"></i> Email Address
+                        </label>
+                        <input class="form-input" type="email" id="rec-email" placeholder="you@company.com" required>
+                        <span class="form-error" id="err-rec-email"></span>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group" id="fg-rec-password">
+                        <label class="form-label" for="rec-password">
+                            <i class="ph ph-lock"></i> Password
+                        </label>
+                        <div class="form-input-wrapper">
+                            <input class="form-input" type="password" id="rec-password" placeholder="Min 6 characters" required minlength="6">
+                            <button type="button" class="form-toggle-pw" id="toggle-rec-pw" aria-label="Toggle password visibility">
+                                <i class="ph ph-eye"></i>
+                            </button>
+                        </div>
+                        <span class="form-error" id="err-rec-password"></span>
+                    </div>
+
+                    <!-- Certificate Upload -->
+                    <div class="form-group" id="fg-rec-cert">
+                        <label class="form-label" for="rec-cert">
+                            <i class="ph ph-file-arrow-up"></i> Certificate / Proof
+                        </label>
+                        <div class="form-file" id="file-drop-zone">
+                            <input type="file" id="rec-cert" accept=".pdf,.jpg,.jpeg,.png" class="form-file__input">
+                            <div class="form-file__label" id="file-label">
+                                <i class="ph ph-cloud-arrow-up"></i>
+                                <span>Click or drag to upload</span>
+                                <small>PDF, JPG, PNG — Max 5MB</small>
+                            </div>
+                        </div>
+                        <span class="form-note">
+                            <i class="ph ph-warning-circle"></i>
+                            Upload valid proof to avoid fake recruiter accounts.
+                        </span>
+                        <span class="form-error" id="err-rec-cert"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn--primary btn--full" id="btn-rec-submit">
+                        <i class="ph ph-check-circle"></i>
+                        <span>Create Account</span>
+                    </button>
+                </form>
+
+                <p class="auth-card__footer">
+                    Already have an account? <a href="login.html">Sign In</a>
+                </p>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="JOBLY Dashboard — Search and Apply for Jobs.">
+    <title>Job Seeker Dashboard — JOBLY</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Phosphor Icons -->
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/regular/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/bold/style.css">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="recruiter-dashboard.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <style>
+        .search-bar-container {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+        }
+        .filter-select {
+            width: 200px;
+        }
+        .jobs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .job-card {
+            background: rgba(26, 26, 46, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--clr-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .job-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--clr-primary);
+        }
+        .job-card__title {
+            font-size: 1.25rem;
+            color: var(--clr-text);
+        }
+        .job-card__meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 0.85rem;
+            color: var(--clr-text-muted);
+        }
+        .job-card__meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .job-card__desc {
+            font-size: 0.95rem;
+            color: var(--clr-text-muted);
+            margin-top: 8px;
+            margin-bottom: auto;
+            line-height: 1.5;
+        }
+        .job-card__footer {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--clr-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .salary-badge {
+            font-weight: 600;
+            color: var(--clr-primary);
+        }
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: var(--clr-text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========== ROLE CHECK ========== -->
+    <script>
+        (function() {
+            const role = localStorage.getItem('jobly_role');
+            if (role === 'recruiter') {
+                window.location.href = 'recruiter-dashboard.html';
+                return;
+            }
+        })();
+    </script>
+
+    <!-- ========== TOP NAVBAR ========== -->
+    <header class="topbar" id="topbar">
+        <div class="topbar__left">
+            <button class="topbar__menu-btn" id="sidebar-toggle" aria-label="Toggle sidebar">
+                <i class="ph ph-list"></i>
+            </button>
+            <a href="index.html" class="topbar__logo">
+                <div class="header__logo-icon">
+                    <i class="ph ph-briefcase"></i>
+                </div>
+                <span class="header__logo-text">JOBLY</span>
+            </a>
+        </div>
+        <div class="topbar__right">
+            <div class="topbar__profile" id="topbar-profile">
+                <div class="topbar__avatar">
+                    <i class="ph ph-user"></i>
+                </div>
+                <span class="topbar__name">Job Seeker</span>
+            </div>
+            <button class="topbar__logout" id="btn-logout" aria-label="Logout">
+                <i class="ph ph-sign-out"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ========== SIDEBAR ========== -->
+    <aside class="sidebar" id="sidebar">
+        <nav class="sidebar__nav">
+            <button class="sidebar__link sidebar__link--active" data-section="dashboard">
+                <i class="ph ph-squares-four"></i>
+                <span>Dashboard</span>
+            </button>
+            <button class="sidebar__link" data-section="search-jobs">
+                <i class="ph ph-magnifying-glass"></i>
+                <span>Search Jobs</span>
+            </button>
+            <button class="sidebar__link" data-section="applied-jobs">
+                <i class="ph ph-paper-plane-tilt"></i>
+                <span>Applied Jobs</span>
+            </button>
+            <button class="sidebar__link" data-section="profile">
+                <i class="ph ph-user-circle"></i>
+                <span>Profile</span>
+            </button>
+        </nav>
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- ========== MAIN CONTENT ========== -->
+    <main class="main" id="main-content">
+
+        <!-- ===== SECTION: Dashboard Overview ===== -->
+        <section class="section section--active" id="sec-dashboard">
+            <h2 class="section__title">Welcome Back!</h2>
+            <p class="section__subtitle">Ready to find your next great opportunity?</p>
+
+            <div class="overview-grid">
+                <div class="stat-card">
+                    <div class="stat-card__icon stat-card__icon--blue"><i class="ph ph-magnifying-glass"></i></div>
+                    <div class="stat-card__info">
+                        <span class="stat-card__number" id="dash-available-jobs">0</span>
+                        <span class="stat-card__label">Available Jobs</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card__icon stat-card__icon--purple"><i class="ph ph-paper-plane-tilt"></i></div>
+                    <div class="stat-card__info">
+                        <span class="stat-card__number" id="dash-applied-jobs">0</span>
+                        <span class="stat-card__label">Jobs Applied</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SECTION: Search Jobs ===== -->
+        <section class="section" id="sec-search-jobs">
+            <h2 class="section__title">Search Jobs</h2>
+            <p class="section__subtitle">Explore and apply to jobs posted by our recruiters.</p>
+
+            <div class="search-bar-container">
+                <input type="text" id="filter-title" class="rdash-form__input search-input" placeholder="Search by job title...">
+                <select id="filter-location" class="rdash-form__input rdash-form__select filter-select">
+                    <option value="">All Locations</option>
+                    <!-- Populated dynamically if needed, or simple matcher -->
+                </select>
+                <select id="filter-type" class="rdash-form__input rdash-form__select filter-select">
+                    <option value="">All Job Types</option>
+                    <option value="Full-time">Full-time</option>
+                    <option value="Part-time">Part-time</option>
+                    <option value="Contract">Contract</option>
+                    <option value="Internship">Internship</option>
+                </select>
+            </div>
+
+            <div class="jobs-grid" id="jobs-container">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- ===== SECTION: Applied Jobs ===== -->
+        <section class="section" id="sec-applied-jobs">
+            <h2 class="section__title">Applied Jobs</h2>
+            <p class="section__subtitle">Track the status of your applications.</p>
+
+            <div class="table-card">
+                <div class="table-responsive">
+                    <table class="rdash-table">
+                        <thead>
+                            <tr>
+                                <th>Job Title</th>
+                                <th>Date Applied</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="applied-tbody">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SECTION: Profile ===== -->
+        <section class="section" id="sec-profile">
+            <h2 class="section__title">My Profile</h2>
+            <p class="section__subtitle">Build a strong profile to stand out to recruiters.</p>
+
+            <!-- Profile Header Card -->
+            <div class="profile-hero-card" id="profile-hero-card">
+                <div class="profile-avatar-wrap">
+                    <div class="profile-avatar" id="profile-avatar-display">
+                        <i class="ph ph-user" id="profile-avatar-icon"></i>
+                        <img id="profile-avatar-img" src="" alt="Profile Photo" style="display:none;">
+                    </div>
+                    <label class="profile-avatar-edit" for="profile-photo-input" title="Change photo">
+                        <i class="ph ph-camera"></i>
+                    </label>
+                    <input type="file" id="profile-photo-input" accept="image/*" style="display:none;">
+                </div>
+                <div class="profile-hero-info">
+                    <h3 class="profile-hero-name" id="profile-hero-name">—</h3>
+                    <p class="profile-hero-role" id="profile-hero-role">Job Seeker</p>
+                    <div class="profile-hero-badges" id="profile-hero-badges"></div>
+                </div>
+                <div class="profile-hero-actions">
+                    <button class="btn btn--primary" id="btn-save-profile">
+                        <i class="ph ph-floppy-disk"></i> Save Profile
+                    </button>
+                </div>
+            </div>
+
+            <div class="profile-grid">
+
+                <!-- LEFT COLUMN -->
+                <div class="profile-col">
+
+                    <!-- Personal Info -->
+                    <div class="profile-card">
+                        <div class="profile-card__header">
+                            <i class="ph ph-identification-card"></i>
+                            <h4>Personal Information</h4>
+                        </div>
+                        <div class="profile-card__body">
+                            <div class="pf-field">
+                                <label class="pf-label" for="pf-name">Full Name</label>
+                                <input class="pf-input" id="pf-name" type="text" placeholder="Your full name">
+                            </div>
+                            <div class="pf-field">
+                                <label class="pf-label" for="pf-email">Email Address</label>
+                                <input class="pf-input" id="pf-email" type="email" placeholder="email@example.com" readonly>
+                            </div>
+                            <div class="pf-row">
+                                <div class="pf-field">
+                                    <label class="pf-label" for="pf-mobile">Mobile</label>
+                                    <input class="pf-input" id="pf-mobile" type="tel" placeholder="10-digit number">
+                                </div>
+                                <div class="pf-field">
+                                    <label class="pf-label" for="pf-dob">Date of Birth</label>
+                                    <input class="pf-input" id="pf-dob" type="date">
+                                </div>
+                            </div>
+                            <div class="pf-field">
+                                <label class="pf-label" for="pf-location">Location</label>
+                                <input class="pf-input" id="pf-location" type="text" placeholder="City, Country">
+                            </div>
+                            <div class="pf-field">
+                                <label class="pf-label" for="pf-bio">Bio / Summary</label>
+                                <textarea class="pf-input pf-textarea" id="pf-bio" rows="3" placeholder="Tell recruiters about yourself..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Links -->
+                    <div class="profile-card">
+                        <div class="profile-card__header">
+                            <i class="ph ph-link"></i>
+                            <h4>Social &amp; Portfolio Links</h4>
+                        </div>
+                        <div class="profile-card__body">
+                            <div class="pf-field pf-field--icon">
+                                <i class="ph ph-linkedin-logo pf-icon"></i>
+                                <input class="pf-input" id="pf-linkedin" type="url" placeholder="https://linkedin.com/in/yourname">
+                            </div>
+                            <div class="pf-field pf-field--icon">
+                                <i class="ph ph-globe pf-icon"></i>
+                                <input class="pf-input" id="pf-portfolio" type="url" placeholder="https://yourportfolio.com">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT COLUMN -->
+                <div class="profile-col">
+
+                    <!-- Work Status -->
+                    <div class="profile-card">
+                        <div class="profile-card__header">
+                            <i class="ph ph-briefcase"></i>
+                            <h4>Work Status</h4>
+                        </div>
+                        <div class="profile-card__body">
+                            <div class="pf-row">
+                                <div class="pf-field">
+                                    <label class="pf-label" for="pf-status">Employment Status</label>
+                                    <select class="pf-input pf-select" id="pf-status">
+                                        <option value="">Select status</option>
+                                        <option value="fresher">Fresher</option>
+                                        <option value="experienced">Experienced</option>
+                                        <option value="student">Student</option>
+                                    </select>
+                                </div>
+                                <div class="pf-field" id="pf-exp-group">
+                                    <label class="pf-label" for="pf-experience">Experience (years)</label>
+                                    <input class="pf-input" id="pf-experience" type="number" min="0" max="50" placeholder="e.g. 3">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Skills -->
+                    <div class="profile-card">
+                        <div class="profile-card__header">
+                            <i class="ph ph-lightning"></i>
+                            <h4>Skills</h4>
+                        </div>
+                        <div class="profile-card__body">
+                            <div class="skills-chips" id="skills-chips"></div>
+                            <div class="skills-add-row">
+                                <input class="pf-input" id="skill-input" type="text" placeholder="Add a skill (e.g. React)">
+                                <button class="btn btn--outline btn--sm" id="btn-add-skill">
+                                    <i class="ph ph-plus"></i> Add
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Certifications -->
+                    <div class="profile-card">
+                        <div class="profile-card__header">
+                            <i class="ph ph-certificate"></i>
+                            <h4>Certifications</h4>
+                            <button class="btn btn--outline btn--sm profile-card__header-btn" id="btn-add-cert">
+                                <i class="ph ph-plus"></i> Add
+                            </button>
+                        </div>
+                        <div class="profile-card__body" id="certs-container">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="seeker-dashboard.js"></script>
+</body>
+</html>

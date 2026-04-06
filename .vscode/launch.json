@@ -1,0 +1,28 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Start Backend Server",
+            "program": "${workspaceFolder}/backend/server.js",
+            "cwd": "${workspaceFolder}/backend"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Open Frontend in Chrome",
+            "url": "http://localhost:5000/index.html",
+            "webRoot": "${workspaceFolder}/frontend"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Run MERN Stack (Backend & UI)",
+            "configurations": ["Start Backend Server", "Open Frontend in Chrome"]
+        }
+    ]
+}
