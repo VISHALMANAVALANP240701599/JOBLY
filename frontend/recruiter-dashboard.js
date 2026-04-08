@@ -28,7 +28,16 @@ document.addEventListener('DOMContentLoaded', () => {
             throw new Error(`Non-JSON response from ${url} (${res.status})`);
         }
         const data = await res.json();
-        if (!res.ok) throw new Error(data.message || `Error ${res.status}`);
+        if (!res.ok) {
+            if (res.status === 401 || res.status === 403) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                localStorage.removeItem('jobly_role');
+                window.location.href = 'index.html';
+                return;
+            }
+            throw new Error(data.message || `Error ${res.status}`);
+        }
         return data;
     }
 
@@ -213,19 +222,16 @@ document.addEventListener('DOMContentLoaded', () => {
         tbody.querySelectorAll('[data-delete-job]').forEach(btn => {
             btn.addEventListener('click', async () => {
                 const jobId = btn.dataset.deleteJob;
-                const token = localStorage.getItem('token');
                 try {
-                    const res = await fetch(`http://localhost:5000/api/jobs/${jobId}`, {
-                        method: 'DELETE',
-                        headers: { 'Authorization': `Bearer ${token}` }
+                    await apiFetch(`${API}/api/jobs/${jobId}`, {
+                        method: 'DELETE'
                     });
-                    if (res.ok) {
-                        showToast('Job deleted successfully');
-                        await loadState(); // reload
-                    } else {
-                        showToast('Failed to delete job');
-                    }
-                } catch(e) { console.error(e); }
+                    showToast('Job deleted successfully');
+                    await loadState(); // reload
+                } catch(e) { 
+                    console.error(e);
+                    showToast(e.message || 'Failed to delete job');
+                }
             });
         });
 
@@ -523,43 +529,43 @@ document.addEventListener('DOMContentLoaded', () => {
             if (editId) {
                 // Update existing job
                 try {
-                    const res = await fetch(`http://localhost:5000/api/jobs/${editId}`, {
+                    await apiFetch(`${API}/api/jobs/${editId}`, {
                         method: 'PUT',
                         headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`
+                            'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({ title, salary, location, type, description: desc, company })
                     });
-                    if (res.ok) {
-                        showToast(`"${title}" has been updated!`);
-                        delete postJobForm.dataset.editId;
-                        document.querySelector('#sec-post-job .section__title').textContent = 'Post a New Job';
-                        document.querySelector('#sec-post-job .section__subtitle').textContent = 'Fill in the details to create a new listing.';
-                        document.getElementById('btn-post-job').innerHTML = '<i class="ph ph-paper-plane-tilt"></i><span>Post Job</span>';
-                        await loadState(); // reload
-                        postJobForm.reset();
-                        switchSection('manage-jobs');
-                    }
-                } catch(err) { console.error(err); }
+                    showToast(`"${title}" has been updated!`);
+                    delete postJobForm.dataset.editId;
+                    document.querySelector('#sec-post-job .section__title').textContent = 'Post a New Job';
+                    document.querySelector('#sec-post-job .section__subtitle').textContent = 'Fill in the details to create a new listing.';
+                    document.getElementById('btn-post-job').innerHTML = '<i class="ph ph-paper-plane-tilt"></i><span>Post Job</span>';
+                    await loadState(); // reload
+                    postJobForm.reset();
+                    switchSection('manage-jobs');
+                } catch(err) { 
+                    console.error(err);
+                    showToast(err.message || 'Failed to update job');
+                }
             } else {
                 // Add new job
                 try {
-                    const res = await fetch(`http://localhost:5000/api/jobs`, {
+                    await apiFetch(`${API}/api/jobs`, {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`
+                            'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({ title, salary, location, type, description: desc, company })
                     });
-                    if (res.ok) {
-                        showToast(`"${title}" has been posted!`);
-                        await loadState(); // reload
-                        postJobForm.reset();
-                        switchSection('manage-jobs');
-                    }
-                } catch(err) { console.error(err); }
+                    showToast(`"${title}" has been posted!`);
+                    await loadState(); // reload
+                    postJobForm.reset();
+                    switchSection('manage-jobs');
+                } catch(err) { 
+                    console.error(err);
+                    showToast(err.message || 'Failed to post job');
+                }
             }
         });
     }

@@ -33,7 +33,18 @@ router.post('/signup', async (req, res) => {
     
     await newUser.save();
     
-    res.status(201).json({ message: 'User created successfully' });
+    // Generate JWT for auto-login
+    const token = jwt.sign(
+      { id: newUser._id, role: newUser.role },
+      process.env.JWT_SECRET,
+      { expiresIn: '1d' }
+    );
+    
+    res.status(201).json({ 
+      message: 'User created successfully',
+      token,
+      user: { id: newUser._id, name: newUser.name, role: newUser.role, email: newUser.email }
+    });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }

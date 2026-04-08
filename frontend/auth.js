@@ -238,6 +238,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             btn.innerHTML = 'Sign Up';
                             btn.style.pointerEvents = 'auto';
                         } else {
+                            if (resObj.data.token && resObj.data.user) {
+                                localStorage.setItem('token', resObj.data.token);
+                                localStorage.setItem('user', JSON.stringify(resObj.data.user));
+                            }
                             showToast('Account created successfully!', 'seeker');
                         }
                     })
@@ -294,6 +298,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             btn.innerHTML = 'Sign Up';
                             btn.style.pointerEvents = 'auto';
                         } else {
+                            if (resObj.data.token && resObj.data.user) {
+                                localStorage.setItem('token', resObj.data.token);
+                                localStorage.setItem('user', JSON.stringify(resObj.data.user));
+                            }
                             showToast('Recruiter account created!', 'recruiter');
                         }
                     })

@@ -1,0 +1,15 @@
+[
+  {
+    "_id": "69d4b2602b757916a4275bb8",
+    "title": "Accounts Manager",
+    "description": "good",
+    "location": "chennai",
+    "salary": "20k",
+    "company": "GURU & Company",
+    "type": "Full-time",
+    "recruiterId": null,
+    "createdAt": "2026-04-07T07:29:36.958Z",
+    "updatedAt": "2026-04-07T07:29:36.958Z",
+    "__v": 0
+  }
+]

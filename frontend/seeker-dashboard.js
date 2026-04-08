@@ -30,7 +30,16 @@ document.addEventListener('DOMContentLoaded', () => {
             throw new Error(`Expected JSON but got ${contentType} from ${url}`);
         }
         const data = await res.json();
-        if (!res.ok) throw new Error(data.message || `Request failed (${res.status})`);
+        if (!res.ok) {
+            if (res.status === 401 || res.status === 403) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                localStorage.removeItem('jobly_role');
+                window.location.href = 'index.html';
+                return;
+            }
+            throw new Error(data.message || `Request failed (${res.status})`);
+        }
         return data;
     }
 
